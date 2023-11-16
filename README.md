@@ -15,7 +15,11 @@
 1. `pip install pyautogui`
 2. `pip install pytesseract`
 3. Edit `pytesseract.pytesseract.tesseract_cmd` to your installed location
-4. Run `python AutoPass.py`
+
+# Usage
+1. Run **DD2** game in **Fullscreen Windowed** mode
+2. Run `python AutoPass.py`
+3. Enter a number of waves for the map
 
 ```
 User> python AutoPass.py

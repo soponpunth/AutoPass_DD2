@@ -24,7 +24,7 @@ END_OFFSET = lambda vp: (int(vp[0]/2) - 220, int(vp[1] * 0.85), 460, 60)
 
 GRACE_PERIOD = 5
 SOUND_HZ = 440
-SOUND_MS = 5000
+SOUND_MS = 3000
 
 DEBUG = False
 
@@ -101,9 +101,9 @@ def end_wave(vp):
 
         if found:
             print("Pressing G for ending wave")
-            winsound.Beep(SOUND_HZ, SOUND_MS)
-            time.sleep(1)
             pyautogui.press("g")
+            time.sleep(1)
+            winsound.Beep(SOUND_HZ, SOUND_MS)            
             return
 
         print(f"Waiting for G button to end round...")
