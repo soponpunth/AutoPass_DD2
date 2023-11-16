@@ -15,28 +15,33 @@ pytesseract.pytesseract.tesseract_cmd = "C:\\Program Files\\Tesseract-OCR\\tesse
 ###############################
 # CONST
 ###############################
-DEFAULT_SCREEN = (3840, 2160)
+UHD_SCREEN = (3840, 2160, 0.85)
+FHD_SCREEN = (1920, 1080, 0.77)
+OTHER_SCREEN = (0, 0, 0.80)
 
 
-COMBAT_OFFSET = lambda vp: (int(vp[0]/2) - 420, int(vp[1] * 0.85), 820, 60)
-END_OFFSET = lambda vp: (int(vp[0]/2) - 220, int(vp[1] * 0.85), 460, 60)
+COMBAT_OFFSET = lambda vp: (int(vp[0]/2) - 420, int(vp[1] * vp[2]), 820, 60)
+END_OFFSET = lambda vp: (int(vp[0]/2) - 220, int(vp[1] * vp[2]), 460, 60)
 
-
-GRACE_PERIOD = 5
-SOUND_HZ = 440
-SOUND_MS = 3000
-
-DEBUG = False
 
 ###############################
 # CUSTOMIZABLE CONST
 ###############################
 
-# sleep in between wave before looking for G button.
+# Sleep in between wave before looking for G button.
 # this is to ensure that the image processing is done
 # only when needed. 
 WAVE_RUNTIME = 60
 
+# Additional wait time at the end of each round for the green gem animation
+GRACE_PERIOD = 5
+
+# Custom beep sound to alert user that the run is done
+SOUND_MS = 3000
+SOUND_HZ = 440
+
+# Set to True to see more logging and processed images
+DEBUG = False
 
 
 
@@ -138,8 +143,18 @@ def main_combat(vp, waves):
         exit(0)
 
 
+def get_screen_ratio(vp):
+    w, h = vp
+
+    if h == UHD_SCREEN[1]:
+        return UHD_SCREEN
+    elif h == FHD_SCREEN[1]:
+        return FHD_SCREEN
+    else:
+        return (w, h, OTHER_SCREEN[2])
+
 if __name__ == "__main__":
     viewport = pyautogui.size()
     print("Screen ", viewport)
     waves = input("Enter number of waves: ")
-    main_combat(viewport, int(waves))
+    main_combat(get_screen_ratio(viewport), int(waves))
