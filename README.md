@@ -14,7 +14,7 @@
 # Installation Guide
 1. `pip install pyautogui`
 2. `pip install pytesseract`
-3. Edit `pytesseract.pytesseract.tesseract_cmd` to your installed location
+3. Edit `tesseract_path` in `Config.py` to your installed location
 
 # What to expect
 - Press `G` at the end of each wave excluding the build phase.
