@@ -4,25 +4,33 @@ import winsound
 import pyautogui
 import time
 import pytesseract
+from enum import Enum
 from PIL import Image, ImageEnhance, ImageFilter
+from config import tesseract_path, sound_in_milliseconds, wave_run_time
 
 #
 # https://github.com/UB-Mannheim/tesseract/wiki
 # Path to tesseract.exe
-pytesseract.pytesseract.tesseract_cmd = "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
+pytesseract.pytesseract.tesseract_cmd = tesseract_path
+
 
 
 ###############################
 # CONST
 ###############################
-UHD_SCREEN = (3840, 2160, 0.85)
-FHD_SCREEN = (1920, 1080, 0.77)
-OTHER_SCREEN = (0, 0, 0.80)
+UHD_SCREEN = (3840, 2160, 0.85, 0.75)
+FHD_SCREEN = (1920, 1080, 0.77, 0.70)
+OTHER_SCREEN = (0, 0, 0.80, 0.75)
 
 
 COMBAT_OFFSET = lambda vp: (int(vp[0]/2) - 420, int(vp[1] * vp[2]), 820, 60)
 END_OFFSET = lambda vp: (int(vp[0]/2) - 220, int(vp[1] * vp[2]), 460, 60)
+RETRY_OFFSET = lambda vp: (int(vp[0]/2) - 420, int(vp[1] * vp[3]), 820, 60)
 
+class Button(Enum):
+    NONE = 0
+    CONTINUE = 1
+    RETRY = 2
 
 ###############################
 # CUSTOMIZABLE CONST
@@ -31,13 +39,13 @@ END_OFFSET = lambda vp: (int(vp[0]/2) - 220, int(vp[1] * vp[2]), 460, 60)
 # Sleep in between wave before looking for G button.
 # this is to ensure that the image processing is done
 # only when needed. 
-WAVE_RUNTIME = 60
+WAVE_RUNTIME = wave_run_time
 
 # Additional wait time at the end of each round for the green gem animation
 GRACE_PERIOD = 5
 
 # Custom beep sound to alert user that the run is done
-SOUND_MS = 3000
+SOUND_MS = sound_in_milliseconds
 SOUND_HZ = 440
 
 # Set to True to see more logging and processed images
@@ -45,7 +53,7 @@ DEBUG = False
 
 
 
-def validate_g_button(offset, error = 5):
+def validate_button(offset, error = 5):
 
     for i in range(5):
 
@@ -53,7 +61,7 @@ def validate_g_button(offset, error = 5):
         im = pyautogui.screenshot(region=offset)
 
         # erosion -> dilation
-        im = im.filter(ImageFilter.MinFilter(3))    
+        im = im.filter(ImageFilter.MinFilter(3))
         im = im.filter(ImageFilter.MaxFilter(3))
         
         # enhance different between text and background
@@ -81,38 +89,55 @@ def validate_g_button(offset, error = 5):
         if DEBUG:
             print(f"Detected: {text}")
 
-        if len(text) >= error:
-            return True
+        if ("YES" in text) or ("NO" in text):
+            return Button.RETRY 
 
-    return False
+        if len(text) >= error:
+            return Button.CONTINUE
+
+    return Button.NONE
 
 
 def wait_and_combat(vp):
     for _ in range(30):    
-        found = validate_g_button(COMBAT_OFFSET(vp))
+        foundBtn = validate_button(COMBAT_OFFSET(vp))
 
-        if found:
+        if foundBtn == Button.CONTINUE:
             print("Pressing G")
             pyautogui.press("g")
             return
 
-        print(f"Waiting for G button...")
+        foundBtn = validate_button(RETRY_OFFSET(vp))
+        if foundBtn == Button.RETRY:
+            print("Pressing Y")
+            pyautogui.press("y")
+            winsound.Beep(SOUND_HZ, SOUND_MS)
+            raise ValueError("RETRY")
+
+        print(f"Waiting for the G button...")
         time.sleep(5)
 
 
 def end_wave(vp):
-    for _ in range(20):
-        found = validate_g_button(END_OFFSET(vp))
+    for _ in range(30):
+        foundBtn = validate_button(END_OFFSET(vp))
 
-        if found:
+        if foundBtn == Button.CONTINUE:
             print("Pressing G for ending wave")
             pyautogui.press("g")
-            time.sleep(1)
-            winsound.Beep(SOUND_HZ, SOUND_MS)            
+            winsound.Beep(SOUND_HZ, SOUND_MS)
             return
 
-        print(f"Waiting for G button to end round...")
+        foundBtn = validate_button(RETRY_OFFSET(vp))
+        if foundBtn == Button.RETRY:
+            print("Pressing Y")
+            pyautogui.press("y")
+            winsound.Beep(SOUND_HZ, SOUND_MS)
+            raise ValueError("RETRY")
+
+        print(f"Waiting for the G button to end round...")
         time.sleep(5)
+
 
 def main_combat(vp, waves):
     print(f"Starting in...")
@@ -127,7 +152,7 @@ def main_combat(vp, waves):
 
         # wait for the wave to end
         for i in range(WAVE_RUNTIME):
-            if i % 5 == 0:
+            if i % 10 == 0:
                 print(f"Waiting {i} of {WAVE_RUNTIME} seconds")
             time.sleep(1)
 
@@ -135,7 +160,7 @@ def main_combat(vp, waves):
         time.sleep(GRACE_PERIOD)
 
     end_wave(vp)
-    waves = input("Restart Script? Re-enter number of waves: ")
+    waves = input("Re-enter number of waves (empty to exit): ")
     if len(waves) > 0:
         main_combat(vp, int(waves))
     else:
@@ -151,10 +176,22 @@ def get_screen_ratio(vp):
     elif h == FHD_SCREEN[1]:
         return FHD_SCREEN
     else:
-        return (w, h, OTHER_SCREEN[2])
+        return (w, h, OTHER_SCREEN[2], OTHER_SCREEN[3])
 
 if __name__ == "__main__":
     viewport = pyautogui.size()
     print("Screen ", viewport)
+
     waves = input("Enter number of waves: ")
-    main_combat(get_screen_ratio(viewport), int(waves))
+    try:
+        main_combat(get_screen_ratio(viewport), int(waves))
+    except ValueError as e:
+        if str(e) != "RETRY":
+            raise
+        else:
+            waves = input("Re-enter number of remaining waves (empty to exit): ")
+            if len(waves) > 0:
+                main_combat(get_screen_ratio(viewport), int(waves))
+            else:
+                print("Bye...")
+                exit(0)
