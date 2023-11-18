@@ -6,7 +6,7 @@ import time
 import pytesseract
 from enum import Enum
 from PIL import Image, ImageEnhance, ImageFilter
-from config import tesseract_path, sound_in_milliseconds, wave_run_time
+from Config import tesseract_path, sound_in_milliseconds, wave_run_time
 
 #
 # https://github.com/UB-Mannheim/tesseract/wiki
