@@ -16,13 +16,13 @@
 2. Edit `tesseract_path` in `Config.py` to your installed location
 
 # What to expect
-- Press `G` at the end of each wave excluding the build phase.
+- Press `G` at the end of each wave except the first build phase.
 - Once the run is done, there will be a **beep** sound to notify the player.
 - If a wave is failed, a retry will automatically happen with a **beep** sound.
 
 # Usage
-1. Run **DD2** game in a **Fullscreen Windowed** mode
-2. Run `python AutoPass.py`
+1. Run the **DD2** game in a **Fullscreen Windowed** mode
+2. Run `python AutoPass.py` when you are ready to combat!
 3. Enter a total number of remaining waves from the map
 
 ```

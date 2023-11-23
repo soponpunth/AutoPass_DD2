@@ -9,18 +9,21 @@ import pyautogui
 ###############################
 # CONST
 ###############################
-BUILD_OFFSET = lambda vp: (int(vp[0]/2) - 220, int(vp[1] * vp[2]), 460, 60)
-COMBAT_OFFSET = lambda vp: (int(vp[0]/2) - 420, int(vp[1] * vp[2]), 820, 60)
-END_OFFSET = lambda vp: (int(vp[0]/2) - 220, int(vp[1] * vp[2]), 460, 60)
-RETRY_OFFSET = lambda vp: (int(vp[0]/2) - 420, int(vp[1] * vp[3]), 820, 60)
-MENU_OFFSET = lambda vp: (int(vp[0]/2) + 320, int(vp[1] * vp[2] + 5), 460, 60)
-WAVE_OFFSET = lambda vp: (int(vp[0] * 0.9), 50, 200, 100)
+BUILD_OFFSET = (1700, 1836, 460, 60)
+COMBAT_OFFSET = (1500, 1836, 820, 60)
+END_OFFSET = (1700, 1836, 460, 60)
+RETRY_OFFSET = (1500, 1620, 820, 60)
+MENU_OFFSET = (2240, 1841, 460, 60)
+WAVE_OFFSET = (3456, 50, 200, 100)
+
 
 ###############################
 # CONST
 ###############################
-UHD_SCREEN = (3840, 2160, 0.85, 0.75)
-FHD_SCREEN = (1920, 1080, 0.77, 0.70)
+# Only support 16:9 screen ratio
+UHD_SCREEN = (3840, 2160, 1)
+QHD_SCREEN = (2560, 1440, 2/3)
+FHD_SCREEN = (1920, 1080, 1/2)
 
 #
 # https://github.com/UB-Mannheim/tesseract/wiki
@@ -35,13 +38,16 @@ class Checker():
         self.checkerFn = checkerFn
         self.check_viewport(offset, viewport)
 
-    def check_viewport(self, offsetFn, viewport):
+    def check_viewport(self, offset, viewport):
         w, h = viewport
         if h == UHD_SCREEN[1]:
-            self.offset = offsetFn(UHD_SCREEN)
+            self.offset = tuple(int(d * UHD_SCREEN[2]) for d in offset)
+            return
+        if h == QHD_SCREEN[1]:
+            self.offset = tuple(int(d * QHD_SCREEN[2]) for d in offset)
             return
         if h == FHD_SCREEN[1]:
-            self.offset = offsetFn(FHD_SCREEN)
+            self.offset = tuple(int(d * FHD_SCREEN[2]) for d in offset)
             return
 
         raise Exception(f"Unhandled Viewport {viewport}")
