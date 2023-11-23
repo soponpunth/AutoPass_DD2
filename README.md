@@ -1,5 +1,5 @@
 # AutoPass_DD2
- An automate script to press G v1.1...
+ An automate script to press G v1.2...
 
 ## Prerequisite
 
@@ -12,24 +12,21 @@
 2. [pytesseract](https://pypi.org/project/pytesseract/)
 
 # Installation Guide
-1. `pip install pyautogui`
-2. `pip install pytesseract`
-3. Edit `tesseract_path` in `Config.py` to your installed location
+1. `pip install pyautogui pytesseract`
+2. Edit `tesseract_path` in `Config.py` to your installed location
 
 # What to expect
 - Press `G` at the end of each wave excluding the build phase.
 - Once the run is done, there will be a **beep** sound to notify the player.
-- If a wave is failed, a retry will automatically happen with a **beep** sound. However, the player
- must still perform the build phase.
+- If a wave is failed, a retry will automatically happen with a **beep** sound.
 
 # Usage
 1. Run **DD2** game in a **Fullscreen Windowed** mode
 2. Run `python AutoPass.py`
-3. Enter a number of waves for the map
+3. Enter a total number of remaining waves from the map
 
 ```
 User> python AutoPass.py
-Screen  Size(width=3840, height=2160)
 Enter number of waves:
 
 ```
@@ -37,3 +34,4 @@ Enter number of waves:
 #### TODO
 - Auto Build (difficulty 5/5)
 - Retry Map  (difficulty 2/5)
+- Auto Wave  (difficulty 3/5)
