@@ -21,4 +21,4 @@ sound_hz = 440
 wave_time_s = 70
 
 # Set to True to enable more logging
-debug = True
+debug = False
