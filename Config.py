@@ -7,7 +7,7 @@ tesseract_path = "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
 
 # Automatically set a number of waves
 # Set to False to input a number manually
-auto_detect_wave = False
+auto_detect_wave = True
 
 # Beep sound duration in milliseconds
 sound_ms = 1500

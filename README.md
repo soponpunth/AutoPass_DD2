@@ -23,15 +23,37 @@
 # Usage
 1. Run the **DD2** game in a **Fullscreen Windowed** mode
 2. Run `python AutoPass.py` when you are ready to combat!
-3. Enter a total number of remaining waves from the map
+3. (Optional, Only if auto_detect_wave=False) Enter a total number of remaining waves from the map
 
 ```
 User> python AutoPass.py
-Enter number of waves:
 
+```
+
+# Config
+```
+# Path to tesseract
+tesseract_path = "C:\\Path\\tesseract.exe"
+
+# Automatically set a number of waves
+# Set to False to input a number manually
+auto_detect_wave = True
+
+# Beep sound duration in milliseconds
+sound_ms = 1500
+
+# Beep sound frequency range
+sound_hz = 440
+
+# Idle time before checking for the G button
+# Increase this number as necessary when running Chaos 7+ maps
+# DO NOT DECREASE BELOW 60 SECONDS !!!
+wave_time_s = 70
+
+# Set to True to enable more logging
+debug = False
 ```
 
 #### TODO
 - Auto Build (difficulty 5/5)
 - Retry Map  (difficulty 2/5)
-- Auto Wave  (difficulty 3/5)

@@ -99,13 +99,23 @@ class WaveGetter(Checker):
             time.sleep(0.2)
             im = pyautogui.screenshot(region=self.offset)
 
+            # enhance big spots
             im = im.filter(ImageFilter.MaxFilter(3))
-            im = im.point(lambda p: 255 if p > 251 else 0)
+            
+            # threshold between text and background
+            im = im.point(lambda p: 255 if p >= 255 else 0)
 
-            im = im.filter(ImageFilter.FIND_EDGES)
-            # im = im.filter(ImageFilter.CONTOUR)
-            im = im.filter(ImageFilter.MaxFilter(5))
+            # enhance text area
+            im = im.filter(ImageFilter.MaxFilter(3))
 
+            # gray scale
+            im = im.convert("1")
+
+            # remove noises
+            im = im.filter(ImageFilter.MinFilter(3))
+
+            # smooth out image
+            im = im.filter(ImageFilter.SMOOTH)
 
             text = ""
             if debug:
@@ -146,6 +156,8 @@ class RetryChecker(Checker):
             im = pyautogui.screenshot(region=self.offset)
             
             im = im.filter(ImageFilter.EDGE_ENHANCE)
+            
+            # threshold between text and background
             im = im.point(lambda p: 255 if p > 155 else 0)
 
             text = ""
