@@ -3,7 +3,7 @@
 import winsound
 import pyautogui
 from View import View, Result
-from Config import sound_ms, sound_hz, auto_detect_wave
+from Config import sound_ms, sound_hz, auto_detect_wave, auto_replay_map
 
 def main_control(view):
     if not auto_detect_wave:
@@ -36,8 +36,12 @@ def main_control(view):
     # press G to move on
     pyautogui.press("g")
     view.check_for_menu_phase()
-    winsound.Beep(sound_hz, sound_ms)
 
+    if auto_replay_map:
+        view.click_retry_button()
+
+    # the run is done
+    winsound.Beep(sound_hz, sound_ms)
 
 if __name__ == "__main__":
 

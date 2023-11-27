@@ -65,6 +65,7 @@ class View():
             if retryChecker.exec():
                 return Result.RETRY
 
+            print(f"Waiting for next combat...")
             time.sleep(5)
 
         raise Exception(f"Failed to detect combat or retry phase during wave ({self.current_wave}/{self.waves})")
@@ -115,3 +116,12 @@ class View():
 
         raise Exception(f"Failed to detect wave menu during wave ({self.current_wave}/{self.waves})")
 
+    def click_retry_button(self):
+        menuChecker = MenuChecker(self.viewport)
+        x, y = menuChecker.get_replay_button()
+        pyautogui.moveTo(x, y)
+        time.sleep(0.1)
+        pyautogui.click()
+        # loading screen
+        time.sleep(15)
+        self.check_for_build_phase()

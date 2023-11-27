@@ -1,5 +1,5 @@
 # AutoPass_DD2
- An automate script to press G v1.2...
+ An automate script to press G v1.3...
 
 ## Prerequisite
 
@@ -39,6 +39,10 @@ tesseract_path = "C:\\Path\\tesseract.exe"
 # Set to False to input a number manually
 auto_detect_wave = True
 
+# Automatically click a replay button
+# Set to True to enable the feature
+auto_replay_map = False
+
 # Beep sound duration in milliseconds
 sound_ms = 1500
 
@@ -56,4 +60,3 @@ debug = False
 
 #### TODO
 - Auto Build (difficulty 5/5)
-- Retry Map  (difficulty 2/5)

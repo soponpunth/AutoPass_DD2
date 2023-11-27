@@ -9,6 +9,10 @@ tesseract_path = "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
 # Set to False to input a number manually
 auto_detect_wave = True
 
+# Automatically click a replay button
+# Set to True to enable the feature
+auto_replay_map = False
+
 # Beep sound duration in milliseconds
 sound_ms = 1500
 

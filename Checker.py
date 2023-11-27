@@ -16,6 +16,7 @@ RETRY_OFFSET = (1500, 1620, 820, 60)
 MENU_OFFSET = (2240, 1841, 460, 60)
 WAVE_OFFSET = (3456, 50, 200, 100)
 
+CURSOR_HEIGHT = 50
 
 ###############################
 # CONST
@@ -42,12 +43,15 @@ class Checker():
         w, h = viewport
         if h == UHD_SCREEN[1]:
             self.offset = tuple(int(d * UHD_SCREEN[2]) for d in offset)
+            self.scale = UHD_SCREEN[2]
             return
         if h == QHD_SCREEN[1]:
             self.offset = tuple(int(d * QHD_SCREEN[2]) for d in offset)
+            self.scale = QHD_SCREEN[2]
             return
         if h == FHD_SCREEN[1]:
             self.offset = tuple(int(d * FHD_SCREEN[2]) for d in offset)
+            self.scale = FHD_SCREEN[2]
             return
 
         raise Exception(f"Unhandled Viewport {viewport}")
@@ -135,7 +139,7 @@ class WaveGetter(Checker):
 
 class BuildChecker(Checker):
     def __init__(self, vp):
-        super().__init__("BUILD", BUILD_OFFSET, vp, lambda t: len(t) >= 3)
+        super().__init__("BUILD", BUILD_OFFSET, vp, lambda t: any(map(t.__contains__, ["PRESS", "TO", "BEGIN"])))
 
 class CombatChecker(Checker):
     def __init__(self, vp): 
@@ -143,7 +147,7 @@ class CombatChecker(Checker):
 
 class EndChecker(Checker):
     def __init__(self, vp):
-        super().__init__("END", END_OFFSET, vp, lambda t: len(t) >= 3)
+        super().__init__("END", END_OFFSET, vp, lambda t: any(map(t.__contains__, ["PRESS", "TO", "MOVE", "ON"])))
 
 class RetryChecker(Checker):
     def __init__(self, vp):
@@ -207,3 +211,12 @@ class MenuChecker(Checker):
                 return True
 
         return False
+
+    def get_replay_button(self):
+        x, y, w, h = self.offset
+        c_x = int(x + (w/2))
+        c_y = int(y + (h/2) + (CURSOR_HEIGHT * self.scale))
+        c_xy = (c_x, c_y)
+        if debug:
+            print(f"Replay Button: {c_xy}")
+        return c_xy
