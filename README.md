@@ -1,5 +1,5 @@
 # AutoPass_DD2
- An automate script to press G v1.3...
+ An automate script to press G v2.0...
 
 ## Prerequisite
 

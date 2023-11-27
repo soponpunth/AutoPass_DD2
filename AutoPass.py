@@ -3,13 +3,20 @@
 import winsound
 import pyautogui
 from View import View, Result
+from Builder import Builder
 from Config import sound_ms, sound_hz, auto_detect_wave, auto_replay_map
 
-def main_control(view):
+def main_control(view, builder):
     if not auto_detect_wave:
         view.read_number_of_waves()
-    
+
     view.display_start_map()
+
+    if builder.auto_build():
+        view.check_for_build_phase()
+        # press G to begin build
+        pyautogui.press("g")
+        builder.exec()
     
     if auto_detect_wave:
         view.check_for_wave_menu()
@@ -45,5 +52,6 @@ def main_control(view):
 
 if __name__ == "__main__":
 
+    builder = Builder()
     view = View()
-    main_control(view)
+    main_control(view, builder)

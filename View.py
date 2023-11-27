@@ -123,5 +123,5 @@ class View():
         time.sleep(0.1)
         pyautogui.click()
         # loading screen
-        time.sleep(15)
+        time.sleep(20)
         self.check_for_build_phase()
