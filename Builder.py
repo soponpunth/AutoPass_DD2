@@ -6,6 +6,7 @@ N_MOVEMENTS = [W, A, S, D]
 S_MOVEMENTS = [w, a, s, d]
 N_SKILLS = [N1, N2, N3, N4, N5, N6, N7, N8]
 K_SKILLS = [K1, K2, K3, K4, K5, K6, K7, K8]
+SWITCH_HEROES = [F1, F2, F3, F4]
 
 class Builder():
 
@@ -53,3 +54,7 @@ class Builder():
                 pyautogui.click()
                 time.sleep(0.1)
                 pyautogui.press(action[0])
+
+            elif action in SWITCH_HEROES:
+                pyautogui.press(action)
+                time.sleep(0.3)

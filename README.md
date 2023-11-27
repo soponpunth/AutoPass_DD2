@@ -56,7 +56,53 @@ wave_time_s = 70
 
 # Set to True to enable more logging
 debug = False
+
+# Debug flag for developing build sequence
+# Set to True to enable the feature
+debug_build = False
 ```
 
-#### TODO
-- Auto Build (difficulty 5/5)
+## Auto Build
+1. Edit `combats` in `Combat.py` by using syntax below (leave empty to disable the feature)
+```
+# Combat Sequence
+W = Move Forward
+S = Move Backward
+A = Move Left
+D = Move Right
+J = Jump
+Z = Sell Defense
+Q = Upgrade Defense
+N1 = Skill slot 1
+N2 = Skill slot 2
+N3 = Skill slot 3
+N4 = Skill slot 4
+N5 = Skill slot 5
+N6 = Skill slot 6
+N7 = Skill slot 7
+N8 = Skill slot 8
+K1 = Skill slot 1 + Confirm
+K2 = Skill slot 2 + Confirm
+K3 = Skill slot 3 + Confirm
+K4 = Skill slot 4 + Confirm
+K5 = Skill slot 5 + Confirm
+K6 = Skill slot 6 + Confirm
+K7 = Skill slot 7 + Confirm
+K8 = Skill slot 8 + Confirm
+F1 = Switch to F1 hero slot
+F2 = Switch to F2 hero slot
+F3 = Switch to F3 hero slot
+F4 = Switch to F4 hero slot
+
+# Example
+# Switch to F2 hero slot
+# Move Forward
+# Move Right
+# Build Defense on key slot 6
+# Move Backward
+# Build Defense on key slot 7
+combats = [F2, W, D, N6, S, N7]
+```
+
+Recommend to use **debug_build** to True to find a proper building sequence for the map.
+When enabled, the program will only execute the combat sequence and exit. The actual combat phase will not start!

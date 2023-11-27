@@ -3,7 +3,7 @@
 ###############################
 
 # Path to tesseract
-tesseract_path = "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
+tesseract_path = "C:\\Path\\tesseract.exe"
 
 # Automatically set a number of waves
 # Set to False to input a number manually
@@ -26,3 +26,7 @@ wave_time_s = 70
 
 # Set to True to enable more logging
 debug = False
+
+# Debug flag for developing build sequence
+# Set to True to enable the feature
+debug_build = False

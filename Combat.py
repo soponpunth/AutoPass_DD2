@@ -31,6 +31,10 @@ K5 = Skill slot 5 + Confirm
 K6 = Skill slot 6 + Confirm
 K7 = Skill slot 7 + Confirm
 K8 = Skill slot 8 + Confirm
+F1 = Switch to F1 hero slot
+F2 = Switch to F2 hero slot
+F3 = Switch to F3 hero slot
+F4 = Switch to F4 hero slot
 '''
 
 combats = []
