@@ -20,9 +20,6 @@ class Builder():
         for c in combats:
             self.actions.append(c)
 
-    def auto_build(self):
-        return len(self.actions) > 0
-
     def exec(self):
         time.sleep(1)
         for action in self.actions:
