@@ -19,11 +19,12 @@
 - Press `G` at the end of each wave except the first build phase.
 - Once the run is done, there will be a **beep** sound to notify the player.
 - If a wave is failed, a retry will automatically happen with a **beep** sound.
+- **Auto Build** feature can be used with a precise build sequence for a map. 
 
 # Usage
 1. Run the **DD2** game in a **Fullscreen Windowed** mode
 2. Run `python AutoPass.py` when you are ready to combat!
-3. (Optional, Only if auto_detect_wave=False) Enter a total number of remaining waves from the map
+3. (Optional, only if **auto_detect_wave=False**) Enter a total number of remaining waves from the map
 
 ```
 User> python AutoPass.py
@@ -42,6 +43,11 @@ auto_detect_wave = True
 # Automatically click a replay button
 # Set to True to enable the feature
 auto_replay_map = False
+
+# Automatically build defenses from build sequence
+# defined in Combat file
+# Set to True to enable the feature
+auto_build = False
 
 # Beep sound duration in milliseconds
 sound_ms = 1500
@@ -63,7 +69,7 @@ debug_build = False
 ```
 
 ## Auto Build
-1. Edit `combats` in `Combat.py` by using syntax below (leave empty to disable the feature)
+- Edit `combats` in `Combat.py` by using syntax below. Don't forget to set **auto_build=True** in Config file
 ```
 # Combat Sequence
 W = Move Forward
@@ -106,3 +112,4 @@ combats = [F2, W, D, N6, S, N7]
 
 Recommend to use **debug_build** to True to find a proper building sequence for the map.
 When enabled, the program will only execute the combat sequence and exit. The actual combat phase will not start!
+**NOTICE! it is not possible to turn a character view angle. However, cycling hero slots can affect 10-15 degree right angle rotation.**
