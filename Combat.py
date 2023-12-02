@@ -37,4 +37,4 @@ F3 = Switch to F3 hero slot
 F4 = Switch to F4 hero slot
 '''
 
-combats = []
+combats = [W, W, W, w, N8, S, S, A, A, A, N8, D, D, D, D, D, D, d, N8]

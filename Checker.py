@@ -56,6 +56,11 @@ class Checker():
 
         raise Exception(f"Unhandled Viewport {viewport}")
 
+    def exec_debug(self):
+        time.sleep(0.2)
+        im = pyautogui.screenshot(region=self.offset)
+        im.save(f"{self.name}_debug.jpg")
+        print(f"Saved {self.name}_debug.jpg: ", self.offset)
 
     def exec(self):
         for i in range(5):
@@ -136,6 +141,23 @@ class WaveGetter(Checker):
                 return text
 
         return ""
+
+class ScreenDebuger():
+    def __init__(self, vp):
+        self.builder = BuildChecker(vp)
+        self.combater = CombatChecker(vp)
+        self.ender = EndChecker(vp)
+        self.retry = RetryChecker(vp)
+        self.waver = WaveGetter(vp)
+        self.menuer = MenuChecker(vp)
+
+    def exec(self):
+        self.builder.exec_debug()
+        self.combater.exec_debug()
+        self.ender.exec_debug()
+        self.retry.exec_debug()
+        self.waver.exec_debug()
+        self.menuer.exec_debug()
 
 class BuildChecker(Checker):
     def __init__(self, vp):

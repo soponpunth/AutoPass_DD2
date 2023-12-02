@@ -3,7 +3,7 @@ import pyautogui
 import time
 from Config import wave_time_s
 from enum import Enum
-from Checker import BuildChecker, CombatChecker, EndChecker, RetryChecker, MenuChecker, WaveGetter
+from Checker import BuildChecker, CombatChecker, EndChecker, RetryChecker, MenuChecker, WaveGetter, ScreenDebuger
 
 
 class Result(Enum):
@@ -125,3 +125,7 @@ class View():
         # loading screen
         time.sleep(20)
         self.check_for_build_phase()
+
+    def display_debug_screen(self):
+        debugger = ScreenDebuger(self.viewport)
+        debugger.exec()

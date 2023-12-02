@@ -35,3 +35,7 @@ debug = False
 # Debug flag for developing build sequence
 # Set to True to enable the feature
 debug_build = False
+
+# Debug flag for fixing different screen resolutions
+# Set to True to enable the feature
+debug_screen = False
